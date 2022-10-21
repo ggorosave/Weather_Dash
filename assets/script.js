@@ -16,14 +16,19 @@ var searchBtn = document.querySelector("#submit-search");
 
 // Loads saved city weather when button is clicked
 function loadSavedCity() {
+
+    // Calls the city name from a data attribute in the HTML
     var savedCityName = this.getAttribute("data-city");
 
+    // Usees city name to find data in local storage
     var cityData = JSON.parse(localStorage.getItem(savedCityName));
 
+    // Sets data to variables
     var cityName = cityData.city;
     var latitude = cityData.lat;
     var longitude = cityData.lon;
 
+    // Calls  the getWeatherData to render weather info on screen
     getWeatherData(cityName, latitude, longitude);
 }
 
@@ -31,27 +36,36 @@ function loadSavedCity() {
 // Makes button when given a city name
 function makeCityBtn(cityName) {
 
+    // Creates a new list item and button
     var listEl = document.createElement("li");
     var newCityBtn = document.createElement("button");
+
+    // Sets content of button
     newCityBtn.textContent = cityName;
     newCityBtn.setAttribute("data-city", cityName);
     newCityBtn.setAttribute("class", "searched-city");
 
+    // Appends the button to the list item
     listEl.appendChild(newCityBtn);
 
-
+    // Appends list item and button to search cities div
     searchedCities.appendChild(listEl);
 
+    // Applies an event handler to the button that calls the loadSavedCity function
     newCityBtn.addEventListener("click", loadSavedCity);
-    // newCityBtn.onclick = loadSavedCity;
+
 }
 
 // Load buttons from local storage
 function renderSavedCityBtns() {
 
+    // Calls the savedCities object in local storage which holds an array of cities
     var savedCitiesArray = JSON.parse(localStorage.getItem("savedCities"));
 
+    // Checks f the array exists
     if (savedCitiesArray !== null) {
+        
+        // Iterates through 
         for (i = 0; i < savedCitiesArray.length; i++) {
             var cityName = savedCitiesArray[i];
 
