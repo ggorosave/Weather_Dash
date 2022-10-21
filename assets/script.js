@@ -8,27 +8,22 @@ var dispalyCurrentWind = document.querySelector("#current-wind");
 var displayCurrentHumidity = document.querySelector("#current-humidity");
 var searchedCities = document.querySelector("#searched-cities");
 var weatherCard = document.querySelector("#weather-card");
+var fiveDayForecast = document.querySelector("#five-day-forecast");
+var forecastArticles = document.querySelector("#forecast-articles");
 
 // Buttons
 var searchBtn = document.querySelector("#submit-search");
 
-
-// for current day
-console.log(dayjs().format("M/D/YYYY"))
-
-// for future days
-console.log(dayjs().add(1, "d").format("M/D/YYYY"))
-
-// Loads saved city weatcher when button is clicked
+// Loads saved city weather when button is clicked
 function loadSavedCity() {
     var savedCityName = this.getAttribute("data-city");
 
-    var cityData =  JSON.parse(localStorage.getItem(savedCityName));
-    
-    var cityName = cityData.city
-    var latitude = cityData.lat
-    var longitude = cityData.lon
-    
+    var cityData = JSON.parse(localStorage.getItem(savedCityName));
+
+    var cityName = cityData.city;
+    var latitude = cityData.lat;
+    var longitude = cityData.lon;
+
     getWeatherData(cityName, latitude, longitude);
 }
 
@@ -72,25 +67,21 @@ function renderSavedCityBtns() {
 
 // Gets weather data
 function getWeatherData(cityName, latitude, longitude) {
+    // Current weather API
     let currentWeatherApiUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&units=imperial&appid=dccaaf9978beaec3114c89bccf494b96"
+
+    // Five day forecast API
+    let dailyForecastApiUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + latitude + "&lon=" + longitude + "&units=imperial&appid=fa0bb7828ffc93be39bba20ab19112d4"
 
     fetch(currentWeatherApiUrl).then(function (response) {
         if (response.ok) {
             response.json().then(function (data) {
 
-                console.log(data);
-                var currentDate = dayjs().format("M/D/YYYY");
-                var iconHref = "http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png";
-                var currentTemp = data.main.temp;
-                var currentWindSpeed = data.wind.speed;
-                var currentHumidity = data.main.humidity;
-
-                console.log("City: " + cityName)
-                console.log("Today: " + currentDate);
-                console.log("icon: " + iconHref);
-                console.log("temperature: " + currentTemp);
-                console.log("wind speed: " + currentWindSpeed);
-                console.log("humidity: " + currentHumidity);
+                let currentDate = dayjs.unix(data.dt).format("M/D/YYYY");
+                let iconHref = "http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png";
+                let currentTemp = data.main.temp;
+                let currentWindSpeed = data.wind.speed;
+                let currentHumidity = data.main.humidity;
 
                 // Reveals weathercard
                 weatherCard.classList.remove("hidden");
@@ -102,11 +93,67 @@ function getWeatherData(cityName, latitude, longitude) {
                 displayCurrentTemp.textContent = currentTemp;
                 dispalyCurrentWind.textContent = currentWindSpeed;
                 displayCurrentHumidity.textContent = currentHumidity;
+
+                return;
             })
+
+            return;
         }
     })
 
     // Add functionality to fetch 5 day forecast
+    fetch(dailyForecastApiUrl).then(function (response) {
+        if (response.ok) {
+            response.json().then(function (data) {
+
+                // Reveals forecast
+                fiveDayForecast.classList.remove("hidden");
+
+                // Resets five day forecast
+                forecastArticles.textContent = " ";
+
+
+                               
+                // Iterates through the data, sets variables for important data, then dynamically displays them on screen
+                for (i = 0; i < data.list.length; i += 8) {
+
+                    // Sets variables for imporatant data
+                    let newDataDate = dayjs.unix(data.list[i].dt).format("M/D/YYYY");
+                    let newDataIcon = "http://openweathermap.org/img/wn/" + data.list[i].weather[0].icon + "@2x.png";
+                    let newDataTemp = data.list[i].main.temp;
+                    let newDataWind = data.list[i].wind.speed;
+                    let newDataHumidity = data.list[i].main.humidity;
+
+                    // Creates new elements
+                    let newArticle = document.createElement("article");
+                    let newDate = document.createElement("h4");
+                    let newImg = document.createElement("img");
+                    let newTemp = document.createElement("p");
+                    let newWind = document.createElement("p");
+                    let newHumid = document.createElement("p");
+
+                    // Sets the content of new elements
+                    newDate.textContent = newDataDate;
+                    newImg.setAttribute("src", newDataIcon);
+                    newTemp.textContent = "Temp: " + newDataTemp + "\u00B0" + "F";
+                    newWind.textContent = "Wind: " + newDataWind + "MPH";
+                    newHumid.textContent = "Humidity: " + newDataHumidity + "%";
+
+                    // Renders new elements on the screen
+                    newArticle.appendChild(newDate);
+                    newArticle.appendChild(newImg);
+                    newArticle.appendChild(newTemp);
+                    newArticle.appendChild(newWind);
+                    newArticle.appendChild(newHumid);
+                    forecastArticles.appendChild(newArticle);
+                }
+
+                return;
+            })
+
+            return;
+        }
+    })
 }
 
 function fetchGeoCode(geoCodeUrl) {
@@ -115,12 +162,6 @@ function fetchGeoCode(geoCodeUrl) {
 
         if (response.ok) {
             response.json().then(function (data) {
-
-                // DELETE
-                console.log("--Geo Data--");
-                console.log(data);
-                console.log(data[0].lat);
-                console.log(data[0].lon);
 
                 // Sets cityName latitude can longitude
                 var cityName = data[0].name;
@@ -156,6 +197,7 @@ function fetchGeoCode(geoCodeUrl) {
 
                 // Calls getWeatherData
                 getWeatherData(cityName, latitude, longitude);
+                return;
             });
         };
     });
@@ -165,9 +207,6 @@ function fetchGeoCode(geoCodeUrl) {
 function getGeoCode(cityName, countryCode, stateCode) {
     // Checks if search includes a country or state code
     if (!countryCode && !stateCode) {
-
-        // DELETE
-        console.log(cityName);
 
         let geoCodeUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=5&appid=61ff8fcb75c80026b172fc1f8cb3672f"
 
@@ -179,9 +218,6 @@ function getGeoCode(cityName, countryCode, stateCode) {
     // Runs if user input a city and a country code only
     if (!stateCode) {
 
-        // DELETE 
-        console.log(cityName + ", " + countryCode);
-
         let geoCodeUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "," + countryCode + "&limit=5&appid=61ff8fcb75c80026b172fc1f8cb3672f"
 
         fetchGeoCode(geoCodeUrl);
@@ -189,10 +225,6 @@ function getGeoCode(cityName, countryCode, stateCode) {
     }
 
     // Runs if user input city, state, and country
-
-    // DELETE
-    console.log(cityName + ", " + stateCode);
-
     let geoCodeUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "," + stateCode + ",US&limit=5&appid=61ff8fcb75c80026b172fc1f8cb3672f"
 
     fetchGeoCode(geoCodeUrl);
@@ -203,8 +235,6 @@ function getGeoCode(cityName, countryCode, stateCode) {
 function searchHandler(event) {
     event.preventDefault();
     var searchArray = searchInput.value.split(",");
-    // DELETE
-    console.log(searchArray);
 
     // Checks if the user input a state and/or country code
     if (searchArray.length > 1) {
@@ -215,13 +245,9 @@ function searchHandler(event) {
             var stateCode = searchArray[1].trim();
             var countryCode = searchArray[2].trim();
 
-            console.log("--Three Inputs--");
 
             // Call getGeoCode
             getGeoCode(cityName, countryCode, stateCode);
-            // set values to local storage
-            // create button from local storage
-
             return;
         }
 
@@ -231,22 +257,16 @@ function searchHandler(event) {
         var cityName = searchArray[0].trim();
         var countryCode = searchArray[1].trim();
 
-        console.log("--Both Inputs--");
-
         // Call getGeoCode
         getGeoCode(cityName, countryCode);
-        // set values to local storage
-        // create button from local storage
+
         return;
     }
 
     var cityName = searchArray[0].trim();
 
-    console.log("--Only City--");
     // Call getGeoCode
     getGeoCode(cityName);
-    // set values to local storage
-    // create button from local storage
     return;
 
 };
@@ -254,4 +274,4 @@ function searchHandler(event) {
 renderSavedCityBtns();
 
 // Event Listener
-searchBtn.addEventListener("click", searchHandler);
+searchBtn.addEventListener("click", searchHandler); 
