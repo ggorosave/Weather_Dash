@@ -21,6 +21,24 @@ console.log(dayjs().add(1, "d").format("M/D/YYYY"))
 
 // here
 
+// Makes button when given a city name
+function makeCityBtn(cityName) {
+
+    var listEl = document.createElement("li");
+    var newCityBtn = document.createElement("button");
+    newCityBtn.textContent = cityName;
+    newCityBtn.setAttribute("data-city", cityName);
+    newCityBtn.setAttribute("class", "searched-city");
+
+    listEl.appendChild(newCityBtn);
+
+
+    searchedCities.appendChild(listEl);
+
+    newCityBtn.addEventListener("click", loadSavedCity);
+    // newCityBtn.onclick = loadSavedCity;
+}
+
 // Load buttons from local storage
 function renderSavedCityBtns() {
 
