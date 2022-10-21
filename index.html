@@ -36,11 +36,13 @@
     
                 <!-- Search Bar -->
                 <div id="search-container">
-                    <label for="search-bar">Search for a City:</label>
-                    <input id="search-bar" name="search-bar" type="text" class="p-1">
-                    <button id="submit-search" type="submit">Search</button>
-                    <p>For more accurate results, include a two letter <a href="https://www.bls.gov/respondents/mwr/electronic-data-interchange/appendix-d-usps-state-abbreviations-and-fips-codes.htm" target="_blank">country code</a> if you are outside of the US.. (ex, Seoul, KR)</p>
-                    <p>If you are inside the US, include a two letter <a href="https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes" target="_blank">state code and the country code US</a>. (ex, Tucson, AZ, US)</p>
+                    <form>
+                        <label for="search-bar">Search for a City:</label>
+                        <input id="search-bar" name="search-bar" type="text" class="p-1">
+                        <button id="submit-search" type="submit">Search</button>
+                    </form>
+                    <p>For more accurate results, include a two letter <a href="https://en.wikipedia.org/wiki/List_of_ISO_3166_country_codes" target="_blank">country code</a> if you are outside of the US.. (ex, Seoul, KR)</p>
+                    <p>If you are inside the US, include a two letter <a href="https://www.bls.gov/respondents/mwr/electronic-data-interchange/appendix-d-usps-state-abbreviations-and-fips-codes.htm"target="_blank">state code</a> and the country code US. (ex, Tucson, AZ, US)</p>
                 </div>
     
                 <!-- divider -->
@@ -49,9 +51,9 @@
                 <!-- ul of buttons for previously searched cities  -->
                 <div id="city-container">
                     <ul id="searched-cities">
+                        <!-- <li><button class="searched-city">City Name</button></li>
                         <li><button class="searched-city">City Name</button></li>
-                        <li><button class="searched-city">City Name</button></li>
-                        <li><button class="searched-city">City Name</button></li>
+                        <li><button class="searched-city">City Name</button></li> -->
                     </ul>
                 </div>
             </section>
@@ -59,11 +61,21 @@
             <section id="forecast" class="col-lg-9">
                 
                 <!-- Big card to display current weather in that city -->
-                <div id="weather-card">
-                    <h2>City Name & Date</h2>
-                    <p>Temperature</p>
-                    <p>Wind</p>
-                    <p>Humidity</p>
+                <div id="weather-card" class="hidden">
+                    <h2>
+                        <span id="city-name">City Name</span>
+                        <span id="current-date">Date</span> 
+                        <img id="current-icon">
+                    </h2>
+                    <p>Temp: 
+                        <span id="current-temp"></span>&#176;F
+                    </p>
+                    <p>Wind:  
+                        <span id="current-wind"></span>MPH
+                    </p>
+                    <p>Humidity: 
+                        <span id="current-humidity"></span>%
+                    </p>
                 </div>
         
                 <!-- Container for 5-day forecast -->
