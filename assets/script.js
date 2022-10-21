@@ -19,7 +19,19 @@ console.log(dayjs().format("M/D/YYYY"))
 // for future days
 console.log(dayjs().add(1, "d").format("M/D/YYYY"))
 
-// here
+// Loads saved city weatcher when button is clicked
+function loadSavedCity() {
+    var savedCityName = this.getAttribute("data-city");
+
+    var cityData =  JSON.parse(localStorage.getItem(savedCityName));
+    
+    var cityName = cityData.city
+    var latitude = cityData.lat
+    var longitude = cityData.lon
+    
+    getWeatherData(cityName, latitude, longitude);
+}
+
 
 // Makes button when given a city name
 function makeCityBtn(cityName) {
