@@ -21,6 +21,25 @@ console.log(dayjs().add(1, "d").format("M/D/YYYY"))
 
 // here
 
+// Load buttons from local storage
+function renderSavedCityBtns() {
+
+    var savedCitiesArray = JSON.parse(localStorage.getItem("savedCities"));
+
+    if (savedCitiesArray !== null) {
+        for (i = 0; i < savedCitiesArray.length; i++) {
+            var cityName = savedCitiesArray[i];
+
+            // Calls the makeCityBtn function
+            makeCityBtn(cityName);
+        }
+
+        return;
+    }
+
+    return;
+}
+
 // Gets weather data
 function getWeatherData(cityName, latitude, longitude) {
     let currentWeatherApiUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&units=imperial&appid=dccaaf9978beaec3114c89bccf494b96"
@@ -202,7 +221,7 @@ function searchHandler(event) {
 
 };
 
-// renderSavedCityBtns();
+renderSavedCityBtns();
 
 // Event Listener
 searchBtn.addEventListener("click", searchHandler);
