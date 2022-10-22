@@ -99,7 +99,7 @@ function getWeatherData(cityName, latitude, longitude) {
 
                 // Sets important data into more readible variables
                 let currentDate = dayjs.unix(data.dt).format("M/D/YYYY");
-                let iconHref = "http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png";
+                let iconHref = "https://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png";
                 let currentTemp = data.main.temp;
                 let currentWindSpeed = data.wind.speed;
                 let currentHumidity = data.main.humidity;
@@ -140,7 +140,7 @@ function getWeatherData(cityName, latitude, longitude) {
 
                     // Sets variables for imporatant data
                     let newDataDate = dayjs.unix(data.list[i].dt).format("M/D/YYYY");
-                    let newDataIcon = "http://openweathermap.org/img/wn/" + data.list[i].weather[0].icon + "@2x.png";
+                    let newDataIcon = "https://openweathermap.org/img/wn/" + data.list[i].weather[0].icon + "@2x.png";
                     let newDataTemp = data.list[i].main.temp;
                     let newDataWind = data.list[i].wind.speed;
                     let newDataHumidity = data.list[i].main.humidity;
