@@ -64,7 +64,7 @@ function renderSavedCityBtns() {
 
     // Checks f the array exists
     if (savedCitiesArray !== null) {
-        
+
         // Iterates through the array and renders buttons from each
         for (i = 0; i < savedCitiesArray.length; i++) {
             var cityName = savedCitiesArray[i];
@@ -90,7 +90,7 @@ function getWeatherData(cityName, latitude, longitude) {
 
     // Gets current weather data 
     fetch(currentWeatherApiUrl).then(function (response) {
-        
+
         // Checks if response worked
         if (response.ok) {
 
@@ -134,7 +134,7 @@ function getWeatherData(cityName, latitude, longitude) {
                 forecastArticles.textContent = " ";
 
 
-                               
+
                 // Iterates through the data, sets variables for important data, then dynamically displays them on screen
                 for (i = 0; i < data.list.length; i += 8) {
 
