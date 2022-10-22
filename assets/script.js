@@ -65,11 +65,11 @@ function renderSavedCityBtns() {
     // Checks f the array exists
     if (savedCitiesArray !== null) {
         
-        // Iterates through 
+        // Iterates through the array and renders buttons from each
         for (i = 0; i < savedCitiesArray.length; i++) {
             var cityName = savedCitiesArray[i];
 
-            // Calls the makeCityBtn function
+            // Calls the makeCityBtn function to render buttons
             makeCityBtn(cityName);
         }
 
@@ -79,18 +79,25 @@ function renderSavedCityBtns() {
     return;
 }
 
-// Gets weather data
+// Gets weather data from open weather api
 function getWeatherData(cityName, latitude, longitude) {
+
     // Current weather API
     let currentWeatherApiUrl = "https://api.openweathermap.org/data/2.5/weather?lat=" + latitude + "&lon=" + longitude + "&units=imperial&appid=dccaaf9978beaec3114c89bccf494b96"
 
     // Five day forecast API
     let dailyForecastApiUrl = "https://api.openweathermap.org/data/2.5/forecast?lat=" + latitude + "&lon=" + longitude + "&units=imperial&appid=fa0bb7828ffc93be39bba20ab19112d4"
 
+    // Gets current weather data 
     fetch(currentWeatherApiUrl).then(function (response) {
+        
+        // Checks if response worked
         if (response.ok) {
+
+            // Converts data into a JS object
             response.json().then(function (data) {
 
+                // Sets important data into more readible variables
                 let currentDate = dayjs.unix(data.dt).format("M/D/YYYY");
                 let iconHref = "http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png";
                 let currentTemp = data.main.temp;
@@ -109,11 +116,11 @@ function getWeatherData(cityName, latitude, longitude) {
                 displayCurrentHumidity.textContent = currentHumidity;
 
                 return;
-            })
+            });
 
             return;
-        }
-    })
+        };
+    });
 
     // Add functionality to fetch 5 day forecast
     fetch(dailyForecastApiUrl).then(function (response) {
@@ -163,12 +170,12 @@ function getWeatherData(cityName, latitude, longitude) {
                 }
 
                 return;
-            })
+            });
 
             return;
-        }
-    })
-}
+        };
+    });
+};
 
 function fetchGeoCode(geoCodeUrl) {
 
@@ -215,10 +222,11 @@ function fetchGeoCode(geoCodeUrl) {
             });
         };
     });
-}
+};
 
-// Gets latitude and longitude of city
+// Checks user input and gets latitude and longitude of city (Only runs for new searches)
 function getGeoCode(cityName, countryCode, stateCode) {
+
     // Checks if search includes a country or state code
     if (!countryCode && !stateCode) {
 
@@ -227,7 +235,7 @@ function getGeoCode(cityName, countryCode, stateCode) {
         // Calls function that fetches geocode API
         fetchGeoCode(geoCodeUrl);
         return;
-    }
+    };
 
     // Runs if user input a city and a country code only
     if (!stateCode) {
@@ -236,7 +244,7 @@ function getGeoCode(cityName, countryCode, stateCode) {
 
         fetchGeoCode(geoCodeUrl);
         return;
-    }
+    };
 
     // Runs if user input city, state, and country
     let geoCodeUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "," + stateCode + ",US&limit=5&appid=61ff8fcb75c80026b172fc1f8cb3672f"
@@ -275,14 +283,14 @@ function searchHandler(event) {
         getGeoCode(cityName, countryCode);
 
         return;
-    }
+    };
 
     var cityName = searchArray[0].trim();
 
     // Call getGeoCode
     getGeoCode(cityName);
-    return;
 
+    return;
 };
 
 renderSavedCityBtns();
