@@ -230,7 +230,7 @@ function getGeoCode(cityName, countryCode, stateCode) {
     // Checks if search includes a country or state code
     if (!countryCode && !stateCode) {
 
-        let geoCodeUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=5&appid=61ff8fcb75c80026b172fc1f8cb3672f"
+        let geoCodeUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "&limit=5&appid=61ff8fcb75c80026b172fc1f8cb3672f"
 
         // Calls function that fetches geocode API
         fetchGeoCode(geoCodeUrl);
@@ -240,14 +240,14 @@ function getGeoCode(cityName, countryCode, stateCode) {
     // Runs if user input a city and a country code only
     if (!stateCode) {
 
-        let geoCodeUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "," + countryCode + "&limit=5&appid=61ff8fcb75c80026b172fc1f8cb3672f"
+        let geoCodeUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "," + countryCode + "&limit=5&appid=61ff8fcb75c80026b172fc1f8cb3672f"
 
         fetchGeoCode(geoCodeUrl);
         return;
     };
 
     // Runs if user input city, state, and country
-    let geoCodeUrl = "http://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "," + stateCode + ",US&limit=5&appid=61ff8fcb75c80026b172fc1f8cb3672f"
+    let geoCodeUrl = "https://api.openweathermap.org/geo/1.0/direct?q=" + cityName + "," + stateCode + ",US&limit=5&appid=61ff8fcb75c80026b172fc1f8cb3672f"
 
     fetchGeoCode(geoCodeUrl);
     return;
