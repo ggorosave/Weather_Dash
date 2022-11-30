@@ -2,9 +2,7 @@
 
 ## Description
 
-This prroject is the sixth challenge from the U of A coding bootcamp. This weather dash takes a user input and searches through external data to return the current weather and five day forecast of a given city. Buttons that display previously searced cities and the elements that show the five day forecast are dynamically rendered with JavaScript. In this project, I utilized some Bootstrap, but implement som custom styling also. I chose to write vanilla JavaScript for this project because I wanted more practice and to get a firmer understanding of it. I used the [OpenWeather](https://openweathermap.org/) API to retrieve the external data for the weather.
-
-Over the course of completing this project, I realized I'm getting a much better at recognizing which tasks will need condital statements and loops before I begin writing the program. Also, completing this project has given me a better sense of how to utilize APIs to retrieve data from external sources. Luckily, the OpenWeather API was fairly easy to read and use in my code. However, the fact that some of its data was locked behind a paywall was frustrating even if it's understandable.  
+There are some many reasons why someone might need to check the weather forecast, and The Weather Dashboard is meant help the user find the current and five-day forcast of a given city. This application takes a user input and searches through external data to return the forecast. Buttons that display previously searced cities and the elements that show the five day forecast are dynamically rendered with JavaScript. In this project, I utilized some Bootstrap, but implement some custom styling also. I chose to write vanilla JavaScript for this project because I wanted more practice and to get a firmer understanding of it. I used the [OpenWeather](https://openweathermap.org/) API to retrieve the external data for the weather.
 
 **Deployed Website:** [Weather Dashboard](https://ggorosave.github.io/Weather_Dash/)
 
